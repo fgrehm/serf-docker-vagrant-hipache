@@ -18,7 +18,7 @@ Ubuntu 13.04 hosts.
 If you are on an Ubuntu host, just make sure you have [vagrant-lxc](https://github.com/fgrehm/vagrant-lxc)
 configured and follow the steps below. If you are on a Mac / Windows host, please
 use  the `raring` VirtualBox VM available at [vagrant-lxc-vbox-hosts](https://github.com/fgrehm/vagrant-lxc-vbox-hosts)
-and follow the instructions from the project's root.
+and follow the instructions from this project's root.
 
 If you have [bindler](https://github.com/fgrehm/bindler) configured, run
 `vagrant plugins bundle` to install the required plugins or run the commands
