@@ -7,7 +7,8 @@ server listens for to update its config.
 
 There are 3 different VMs involved and in order to keep the amount of resource
 usage low we use [vagrant-lxc](https://github.com/fgrehm/vagrant-lxc) containers
-as Vagrant VMs.
+as Vagrant VMs. Two VMs will host multiple docker containers and the other will
+run hipache.
 
 I personally tested this on my own laptop and on a DigitalOcean Droplet, both
 Ubuntu 13.04 hosts.
@@ -134,6 +135,12 @@ The Serf agents are brought up with [some](scripts/serf/configure-dockers-agent)
 and the `dockers-X` machines gets an [extra job](scripts/serf/configure-dockers-agent#L23-L36)
 that makes sure the agents are aware of each other by running a `serf join` back
 to the hipache machine.
+
+The "deploy" is composed of a [`docker run`](scripts/deploy-nodejs-app#L9) + a
+[`serf event deploy "dockers-X.vagrant.dev:app-1:CONTAINER_PORT`](scripts/deploy-nodejs-app#L16)
+from the `dockers-X` VM. The event is then captured by the `hipache` VM and
+the hipache server gets configured by [adding some entries to a redis list](scripts/handle-deploy#L28-L31).
+
 
 ### Acknowledgement
 
