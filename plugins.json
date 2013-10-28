@@ -1,0 +1,6 @@
+[
+  { "vagrant-cachier":     ">= 0.4.1" },
+  { "vagrant-lxc":         ">= 0.6.4" },
+  { "vagrant-hostmanager": ">= 1.2.3" },
+  { "ventriloquist":       ">= 0.3.1" }
+]
