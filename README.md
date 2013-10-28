@@ -2,8 +2,8 @@
 
 This repo contains some experiments with the quartet. Basically, we are going to
 simulate the launch of 2 instances of 2 different dummy nodejs apps in docker
-containers and each app will use Serf to distribute events which the hipache
-server listens for to update its config.
+containers and each docker server will use Serf to distribute events which the
+hipache server listens for to update its config.
 
 There are 3 different VMs involved and in order to keep the amount of resource
 usage low we use [vagrant-lxc](https://github.com/fgrehm/vagrant-lxc) containers
