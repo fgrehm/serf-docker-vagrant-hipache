@@ -1,6 +1,16 @@
 # [Serf](http://www.serfdom.io/) + [Docker](http://www.docker.io/) + [Vagrant](http://www.vagrantup.com/) + [hipache](https://github.com/dotcloud/hipache)
 
-Experiments with the quartet, more info coming out soon.
+This repo contains some experiments with the quartet. Basically, we are going to
+simulate the launch of 2 instances of 2 different dummy nodejs apps in docker
+containers and each app will use Serf to distribute events which the hipache
+server listens for to update its config.
+
+There are 3 different VMs involved and in order to keep the amount of resource
+usage low we use [vagrant-lxc](https://github.com/fgrehm/vagrant-lxc) containers
+as Vagrant VMs.
+
+I personally tested this on my own laptop and on a DigitalOcean Droplet, both
+Ubuntu 13.04 hosts.
 
 ## Getting started
 
@@ -93,13 +103,14 @@ Hello from: app-2.instance-2.dockers-1
 
 ### Clean up
 
-To start fresh, run a `vagrant reload` or:
+To start fresh, run:
 
 ```
-vagrant ssh hipache -c "for app in app-1 app-2; do redis-cli del frontend:${app}.vagrant-dev; done; sudo service hipache restart"
+vagrant ssh hipache -c "for app in app-1 app-2; do redis-cli del frontend:${app}.vagrant.dev; done"
 for vm in dockers-1 dockers-2; do
-  vagrant ssh $vm -c "sudo service serf restart; sudo service serf-join restart; /vagrant/scripts/docker/clean-containers"
+  vagrant ssh $vm -c "/vagrant/scripts/docker/clean-containers"
 done
+vagrant reload
 ```
 
 ### Logging
@@ -123,3 +134,9 @@ The Serf agents are brought up with [some](scripts/serf/configure-dockers-agent)
 and the `dockers-X` machines gets an [extra job](scripts/serf/configure-dockers-agent#L23-L36)
 that makes sure the agents are aware of each other by running a `serf join` back
 to the hipache machine.
+
+### Acknowledgement
+
+Thanks to [@jpfuentes2](https://github.com/jpfuentes2) for some early feedback
+on this. You might want to check out his [hipster-devops](https://github.com/jpfuentes2/hipster-devops)
+for another example of using Serf and Docker.
