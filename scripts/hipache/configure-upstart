@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cat <<EOF >/etc/init/hipache.conf
+description "Hipache server"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+script
+  exec sudo -u vagrant /bin/bash \\
+    -c 'source /home/vagrant/.nvm/nvm.sh && exec hipache -c /vagrant/configs/hipache.json' \\
+    >> /vagrant/logs/hipache.log 3>&1 2>&1
+end script
+EOF

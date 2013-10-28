@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -f /usr/local/bin/serf ]; then
+  echo 'Serf already installed'
+  exit 0
+fi
+
+apt-get install -y unzip wget
+
+mkdir -p /vagrant/cache
+if ! [ -f /vagrant/cache/serf.zip ]; then
+  wget https://dl.bintray.com/mitchellh/serf/0.1.1_linux_amd64.zip -O /vagrant/cache/serf.zip
+fi
+
+unzip -d /usr/local/bin /vagrant/cache/serf.zip

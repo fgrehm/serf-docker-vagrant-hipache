@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+app_name      = ARGV[0]
+instance_name = "#{app_name}.#{ARGV[1]}.#{`hostname`}"
+
+puts "Starting nodejs app (INSTANCE=#{instance_name})"
+cid = `docker run -e INSTANCE='#{instance_name}' -d hello-nodejs`
+
+puts 'Getting exposed port'
+container_info = JSON.parse(`docker inspect #{cid}`)[0]
+port           = container_info['NetworkSettings']['PortMapping']['Tcp']['80']
+
+puts 'Broadcasting event'
+`serf event deploy "\`hostname -f\`:#{app_name}:#{port}"`
+
+puts 'DONE!'

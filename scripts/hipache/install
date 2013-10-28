@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if ! $(npm list -g | grep -q hipache); then
+  echo Will install hipache
+  npm install hipache -g
+else
+  echo hipache already installed
+fi

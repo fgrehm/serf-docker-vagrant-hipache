@@ -1,0 +1,10 @@
+{
+  "server": {
+    "accessLog": "/vagrant/logs/hipache_access.log",
+    "port": 8080,
+    "workers": 5,
+    "maxSockets": 0,
+    "deadBackendTTL": 30,
+    "address": ["127.0.0.1"]
+  }
+}

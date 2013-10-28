@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DEFAULT='10.0.252'
+PREFIX=${1:-$DEFAULT}
+
+if ! [ -f /etc/default/lxc ]; then
+  echo "configuring lxc bridge"
+  cat <<STR > /etc/default/lxc
+LXC_AUTO="true"
+USE_LXC_BRIDGE="true"
+LXC_BRIDGE="lxcbr0"
+LXC_ADDR="${PREFIX}.1"
+LXC_NETMASK="255.255.255.0"
+LXC_NETWORK="${PREFIX}.0/24"
+LXC_DHCP_RANGE="${PREFIX}.2,${PREFIX}.254"
+LXC_DHCP_MAX="253"
+LXC_SHUTDOWN_TIMEOUT=120
+STR
+else
+  echo "lxc bridge already configured"
+fi

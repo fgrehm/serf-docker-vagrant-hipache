@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+#
+# = Inputs and Parameters
+# Every time an event handler is invoked, Serf sets some environmental variables:
+#  * SERF_EVENT is the event type that is occuring. This will be one of member-join, member-leave, member-failed, or user.
+#  * SERF_SELF_NAME is the name of the node that is executing the event handler.
+#  * SERF_SELF_ROLE is the role of the node that is executing the event handler.
+#  * SERF_USER_EVENT is the name of the user event type if SERF_EVENT is "user".
+
+data = {'input' => ''}
+%w( SELF_NAME SELF_ROLE EVENT USER_EVENT ).each do |var|
+  data[var.downcase] = ENV["SERF_#{var}"]
+end
+
+while line = gets do
+  data['input'] << line
+end
+
+File.open('/vagrant/logs/deploy-agent.log', 'a+') do |f|
+  f.flock(File::LOCK_SH)
+  f.puts data.inspect
+end
+
+backend, app, port = data['input'].split(':')
+backend = "http://#{backend}:#{port}"
+domain  = "#{app}.vagrant.dev"
+
+unless system("redis-cli lrange frontend:#{domain} 0 -1 | grep -q '#{app}'")
+  `redis-cli rpush frontend:#{domain} #{app}`
+end
+`redis-cli rpush frontend:#{domain} #{backend}`
+
+File.open('/vagrant/logs/deploy-agent.log', 'a+') do |f|
+  f.flock(File::LOCK_SH)
+  f.puts 'deploy succeeded!'
+end

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+HOST=`hostname`
+LB='hipache.vagrant.dev'
+
+cat <<EOF >/etc/init/serf.conf
+description "Serf agent"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+script
+  # Tks to http://www.cyberciti.biz/faq/how-to-find-out-the-ip-address-assigned-to-eth0-and-display-ip-only/
+  IP=\$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \$1}')
+  /usr/local/bin/serf agent \\
+      -bind=\$IP \\
+      -role='load-balancer' >>/vagrant/logs/serf-${HOST}.log 2>&1
+end script
+EOF
+
+cat <<EOF >/etc/init/serf-join.conf
+description "Join the serf cluster"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+task
+respawn
+
+script
+    sleep 5
+    exec /usr/local/bin/serf join ${LB}
+end script
+EOF

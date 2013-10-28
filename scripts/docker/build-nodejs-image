@@ -1,0 +1,9 @@
+#!/bin/bash
+
+image='hello-nodejs'
+if ! $(docker images | grep -q $image); then
+  echo "Bulding ${image} on `hostname`"
+  cd /vagrant/dockerfiles/${image} && docker build -t ${image} .
+else
+  echo "Image ${image} already available on `hostname`"
+fi
