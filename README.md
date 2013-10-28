@@ -126,7 +126,7 @@ provisioned with a few things apart from [Serf agents](http://www.serfdom.io/doc
 
 | Machine | What does it do? |
 | ------- | ---------------- |
-| hipache   | Runs hipache as a plain old nodejs app on port `8080` |
+| hipache   | Runs hipache as a "plain old nodejs app" [configured](configs/hipache.json) to run on port `8080` |
 | dockers-1 | Runs dummy nodejs apps as Docker containers |
 | dockers-2 | Runs dummy nodejs apps as Docker containers |
 
@@ -136,15 +136,19 @@ and the `dockers-X` machines gets an [extra job](scripts/serf/configure-dockers-
 that makes sure the agents are aware of each other by running a `serf join` back
 to the hipache machine.
 
+The hipache machine also gets provisioned with [ventriloquist](https://github.com/fgrehm/ventriloquist)
+in order to set up a [nodejs environment](Vagrantfile#L25) and run a [redis](Vagrantfile#L24)
+docker container
+
 The "deploy" is composed of a [`docker run`](scripts/deploy-nodejs-app#L9) + a
-[`serf event deploy "dockers-X.vagrant.dev:app-1:CONTAINER_PORT`](scripts/deploy-nodejs-app#L16)
-from the `dockers-X` VM. The event is then captured by the `hipache` VM and
-the hipache server gets configured by [adding some entries to a redis list](scripts/handle-deploy#L28-L31).
+[`serf event deploy`](scripts/deploy-nodejs-app#L16) with "dockers-X.vagrant.dev:app-1:CONTAINER_PORT"
+as data triggered by each `dockers-X` VM. The event is then captured by the
+`hipache` VM and the hipache server gets configured by [adding some entries to a redis list](scripts/handle-deploy#L28-L31).
 
 ### Acknowledgement
 
 Thanks to [@jpfuentes2](https://github.com/jpfuentes2) for some early feedback
-on this. You might want to check out his [hipster-devops](https://github.com/jpfuentes2/hipster-devops)
+on this. You might want to keep an eye on his [hipster-devops](https://github.com/jpfuentes2/hipster-devops)
 for another example of using Serf and Docker.
 
 ## Got feedback?
