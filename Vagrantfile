@@ -7,7 +7,9 @@ VAGRANTFILE_API_VERSION = "2"
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'lxc'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "raring64"
+  config.vm.box     = "raring64"
+  config.vm.box_url = 'http://bit.ly/vagrant-lxc-raring64-2013-10-23'
+
   config.vm.provider :lxc do |lxc|
     # Required to boot nested docker containers
     lxc.customize 'aa_profile', 'unconfined'
@@ -61,6 +63,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.cache.auto_detect = true
   config.cache.scope       = :machine
-
-  # TODO: VBox and vagrant-lxc box URLs
 end
