@@ -35,7 +35,7 @@ done
 ```
 
 
-### "Deploy" your apps and let hipache know about it
+### "[Deploy](scripts/deploy-nodejs-app)" your apps and let hipache know about it
 
 ```
 for vm in dockers-1 dockers-2; do
