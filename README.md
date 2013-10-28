@@ -141,9 +141,13 @@ The "deploy" is composed of a [`docker run`](scripts/deploy-nodejs-app#L9) + a
 from the `dockers-X` VM. The event is then captured by the `hipache` VM and
 the hipache server gets configured by [adding some entries to a redis list](scripts/handle-deploy#L28-L31).
 
-
 ### Acknowledgement
 
 Thanks to [@jpfuentes2](https://github.com/jpfuentes2) for some early feedback
 on this. You might want to check out his [hipster-devops](https://github.com/jpfuentes2/hipster-devops)
 for another example of using Serf and Docker.
+
+## Got feedback?
+
+Apart from Vagrant, I'm fairly new to most of the stuff here, feel free to open
+up an issue here on GitHub and / or shoot a tweet to [@fgrehm](https://twitter.com/fgrehm).
