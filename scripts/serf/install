@@ -13,3 +13,6 @@ if ! [ -f /vagrant/cache/serf.zip ]; then
 fi
 
 unzip -d /usr/local/bin /vagrant/cache/serf.zip
+
+# create log dir
+mkdir -p /vagrant/logs
