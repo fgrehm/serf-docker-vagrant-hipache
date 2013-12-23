@@ -155,3 +155,7 @@ for another example of using Serf and Docker.
 
 Apart from Vagrant, I'm fairly new to most of the stuff here, feel free to open
 up an issue here on GitHub and / or shoot a tweet to [@fgrehm](https://twitter.com/fgrehm).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/fgrehm/serf-docker-vagrant-hipache/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
