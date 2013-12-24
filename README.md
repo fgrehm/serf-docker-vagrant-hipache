@@ -35,10 +35,10 @@ Then bring the VMs up and start the required services:
 
 ```
 # This takes around 15min down here, so go grab a coffee
-vagrant up
+vagrant up --no-parallel
 
-# This is only needed on the first up, I haven't figured out how to set things
-# up in a way to avoid this, a simple `vagrant reload` does the trick too
+# This is only needed on the first up, I haven't figured out how to set things up 
+# in a way to avoid this, a simple `vagrant reload --no-parallel` does the trick too
 vagrant ssh hipache -c 'for s in hipache serf; do sudo start $s; done'
 for vm in dockers-1 dockers-2; do
   vagrant ssh $vm -c 'for s in serf serf-join; do sudo start $s; done'
@@ -111,7 +111,7 @@ vagrant ssh hipache -c "for app in app-1 app-2; do redis-cli del frontend:${app}
 for vm in dockers-1 dockers-2; do
   vagrant ssh $vm -c "/vagrant/scripts/docker/clean-containers"
 done
-vagrant reload
+vagrant reload --no-parallel
 ```
 
 ### Logging
